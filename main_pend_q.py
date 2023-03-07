@@ -17,4 +17,4 @@ alphas = [0.25, 0.5, 0.75]
 q = QLearning(env)
 q.train(num_episodes)
 plot_pendulum_trajectory(q)
-plot_learning_curve(q)
+plot_learning_curve(q,5)

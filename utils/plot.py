@@ -99,15 +99,19 @@ def plot_gridworld_policy(
     plt.savefig("figures/gridworld/policy_statevalue_{}.png".format(tag), dpi=600)
 
 
-def plot_learning_curve(model: Sarsa | QLearning, is_convolved: bool = False):
+def plot_learning_curve(model: Sarsa | QLearning, convolve_value:int):
     directory: str = "gridworld" if isinstance(model.env, GridWorld) else "pendulum"
     title: str = "SARSA" if isinstance(model, Sarsa) else "Q-learning"
 
     fig, ax = plt.subplots()
-    if is_convolved:
-        ax.plot(np.convolve(model.returns, np.ones(100) / 100, mode="valid"))
-    else:
-        ax.plot(model.returns)
+    ax.plot(
+            np.convolve(
+                model.returns,
+                np.ones(convolve_value) / convolve_value,
+                mode="valid",
+            ),
+            label=r"$\alpha$={}, $\epsilon$={}".format(model.alpha, model.eps),
+        )
     ax.set_xlabel("Episode [-]")
     ax.set_ylabel("Return [-]")
     ax.grid(True)

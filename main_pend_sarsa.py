@@ -16,4 +16,4 @@ num_episodes: int = 200
 sarsa = Sarsa(env)
 sarsa.train(num_episodes)
 plot_pendulum_trajectory(sarsa)
-plot_learning_curve(sarsa)
+plot_learning_curve(sarsa, 5)
