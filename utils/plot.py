@@ -81,6 +81,7 @@ def plot_gridworld_policy(
     V = model.V
     # Plot state-value function
     fig, axs = plt.subplots(nrows=1, ncols=2)
+    fig.subplots_adjust(hspace=0.6, wspace=0.4)
     axs[0].plot(V)
     axs[0].set_xlabel("State")
     axs[0].set_ylabel("State-value")
