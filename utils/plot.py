@@ -190,7 +190,7 @@ def plot_batch_lc(models: list[QLearning | Sarsa], model_name, ind):
         )
     ax.set_xlabel("Episode [-]")
     ax.set_ylabel("Return [-]")
-    ax.set_ylim(0, 180)
+    ax.set_ylim()
     ax.grid(True)
     ax.legend(loc="lower center", ncol=3)
     plt.savefig(

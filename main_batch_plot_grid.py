@@ -13,14 +13,14 @@ from utils.plot import plot_batch_lc
 
 model_name: Literal["q", "sarsa"] = "q"
 env = Pendulum()
-num_episodes: int = 500
+num_episodes: int = 200
 alphas: list[float] = [0.7, 0.5, 0.3]
 epss: list[float] = [0.15, 0.1, 0.05]
 hyperparam_pairs: list[tuple[float, float]] = list(itertools.product(alphas, epss))
 
 plt.rcParams["font.family"] = "Times New Roman"
 env_name: str = "gridworld" if isinstance(env, GridWorld) else "pendulum"
-models_file: str = "./models/models_{}_{}.pickle".format(env_name,model_name)
+models_file: str = "./models/models_{}_{}.pickle".format(env_name, model_name)
 
 
 models: list[QLearning | Sarsa] = []
