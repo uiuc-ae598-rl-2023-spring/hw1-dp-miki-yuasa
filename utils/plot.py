@@ -3,6 +3,7 @@ from typing import Callable
 
 from matplotlib import pyplot as plt
 from numpy import ndarray
+import numpy as np
 from algorithms.policy_iteration import PolicyIteration
 from algorithms.sarsa import Sarsa
 from algorithms.value_iteration import ValueIteration
@@ -98,12 +99,15 @@ def plot_gridworld_policy(
     plt.savefig("figures/gridworld/policy_statevalue_{}.png".format(tag), dpi=600)
 
 
-def plot_learning_curve(model: Sarsa | QLearning):
+def plot_learning_curve(model: Sarsa | QLearning, is_convolved: bool = False):
     directory: str = "gridworld" if isinstance(model.env, GridWorld) else "pendulum"
     title: str = "SARSA" if isinstance(model, Sarsa) else "Q-learning"
 
     fig, ax = plt.subplots()
-    ax.plot(model.returns)
+    if is_convolved:
+        ax.plot(np.convolve(model.returns, np.ones(100) / 100, mode="valid"))
+    else:
+        ax.plot(model.returns)
     ax.set_xlabel("Episode [-]")
     ax.set_ylabel("Return [-]")
     ax.grid(True)

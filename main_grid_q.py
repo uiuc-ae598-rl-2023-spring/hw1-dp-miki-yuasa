@@ -12,10 +12,10 @@ plt.rcParams["font.family"] = "Times New Roman"
 # Gird World
 env = GridWorld()
 
-num_episodes: int = 500
+num_episodes: int = 5000
 
 q = QLearning(env)
 q.train(num_episodes)
 plot_gridworld_trajectory(q)
 plot_gridworld_policy(q)
-plot_learning_curve(q)
+plot_learning_curve(q, True)

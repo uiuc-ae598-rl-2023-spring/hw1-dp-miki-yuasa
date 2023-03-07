@@ -1,3 +1,4 @@
+from matplotlib import pyplot as plt
 from algorithms.sarsa import Sarsa
 from gridworld import GridWorld
 from utils.plot import (
@@ -7,10 +8,11 @@ from utils.plot import (
 )
 
 env = GridWorld()
+plt.rcParams["font.family"] = "Times New Roman"
 
-num_episodes: int = 100
+num_episodes: int = 5000
 sarsa = Sarsa(env)
 sarsa.train(num_episodes)
 plot_gridworld_trajectory(sarsa)
 plot_gridworld_policy(sarsa)
-plot_learning_curve(sarsa)
+plot_learning_curve(sarsa, True)
