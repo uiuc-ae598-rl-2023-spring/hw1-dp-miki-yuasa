@@ -201,7 +201,7 @@ def plot_batch_lc(
     for model in models:
         ax.plot(
             np.convolve(
-                model.returns[0:199],
+                model.returns,
                 np.ones(convolve_value) / convolve_value,
                 mode="valid",
             ),
@@ -211,7 +211,7 @@ def plot_batch_lc(
     ax.set_ylabel("Return [-]")
     ax.set_ylim(*ylim)
     ax.grid(True)
-    ax.legend(loc="lower center", ncol=3)
+    ax.legend(loc="lower right")
     plt.savefig(
         "figures/{}/learning_curve_barch_{}_{}.png".format(directory, model_name, ind),
         dpi=600,
