@@ -35,14 +35,15 @@ class QLearning:
 
         for episode in range(num_episodes):
             s: int = self.env.reset()
-            a: int = act(s, Q, self.num_actions, self.eps)
 
             episode_return: float = 0
 
-            for _ in range(self.max_num_steps):
+            done: bool = False
+
+            while not done:
                 s1: int
                 r: Real
-                done: bool
+                a: int = act(s, Q, self.num_actions, self.eps)
                 s1, r, done = self.env.step(a)
                 Q[s, a] += alpha * (
                     r

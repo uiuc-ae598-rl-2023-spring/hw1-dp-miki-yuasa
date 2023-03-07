@@ -8,7 +8,7 @@ from utils.plot import (
 # Gird World
 env = Pendulum()
 
-num_episodes: int = 100
+num_episodes: int = 200
 
 q = QLearning(env, alpha=0.1, eps=0.05)
 q.train(num_episodes)
