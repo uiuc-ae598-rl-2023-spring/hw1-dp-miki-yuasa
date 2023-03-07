@@ -9,7 +9,7 @@ from utils.plot import (
 # Gird World
 env = Pendulum()
 
-num_episodes: int = 100
+num_episodes: int = 200
 sarsa = Sarsa(env)
 sarsa.train(num_episodes)
 plot_pendulum_trajectory(sarsa)
