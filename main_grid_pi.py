@@ -11,7 +11,7 @@ from utils.plot import (
 # Gird World
 env = GridWorld()
 
-pi = PolicyIteration(env)
+pi = PolicyIteration(env, gamma=0.95)
 pi.train()
 plot_gridworld_trajectory(pi)
 plot_gridworld_policy(pi)

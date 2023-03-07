@@ -28,17 +28,19 @@ class PolicyIteration:
         gamma: float = self.gamma
 
         # 1 Initialization
-        V = np.zeros(self.num_states)
-        policy = np.zeros(self.num_states)
+        V = np.random.rand(self.num_states)
+        policy = np.random.randint(self.num_actions, size=self.num_states)
 
         V_history: list[float] = [np.mean(V)]
 
+        iter_ind: int = 0
         while True:
             # 2 Policy Evaluation
-            Delta: float = 0
 
-            while Delta >= self.theta:
+            print("Policy Evaluation")
+            while True:
                 for s in range(self.num_states):
+                    Delta: float = 0
                     v: float = V[s]
                     V[s] = np.sum(
                         [
@@ -47,26 +49,42 @@ class PolicyIteration:
                         ]
                     )
                     Delta = max(Delta, abs(v - V[s]))
+                    print(
+                        "Delta: {}, abs:{}, v:{}, V[s]:{}".format(
+                            Delta, abs(v - V[s]), v, V[s]
+                        )
+                    )
 
+                if Delta < self.theta:
+                    break
+                else:
+                    pass
+
+            print("Policy Improvement")
             # 3 Policy Improvement
             policy_stable: bool = True
             for s in range(self.num_states):
                 old_action: Action = policy[s]
                 policy[s] = np.argmax(
-                    np.sum(
-                        [
-                            p(s1, s, a) * (r(s, a) + gamma * V[s1])
-                            for s1 in range(self.num_states)
-                        ]
-                    )
-                    for a in range(self.num_actions)
+                    [
+                        np.sum(
+                            [
+                                p(s1, s, a) * (r(s, a) + gamma * V[s1])
+                                for s1 in range(self.num_states)
+                            ]
+                        )
+                        for a in range(self.num_actions)
+                    ]
                 )
+                print("old: {}, new: {}".format(old_action, policy[s]))
                 if old_action != policy[s]:
                     policy_stable = False
                 else:
                     pass
 
             V_history.append(np.mean(V))
+            print(iter_ind)
+            iter_ind += 1
 
             if policy_stable:
                 break
