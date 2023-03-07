@@ -183,18 +183,28 @@ def tag(model: PolicyIteration | ValueIteration | Sarsa | QLearning) -> str:
     return tag
 
 
-def plot_batch_lc(models: list[QLearning | Sarsa], model_name, ind):
+def plot_batch_lc(
+    models: list[QLearning | Sarsa],
+    model_name,
+    ind,
+    convolve_value: int,
+    ylim: tuple[int, int],
+):
     directory: str = "gridworld" if isinstance(models[0].env, GridWorld) else "pendulum"
 
     fig, ax = plt.subplots()
     for model in models:
         ax.plot(
-            model.returns,
+            np.convolve(
+                model.returns[0:199],
+                np.ones(convolve_value) / convolve_value,
+                mode="valid",
+            ),
             label=r"$\alpha$={}, $\epsilon$={}".format(model.alpha, model.eps),
         )
     ax.set_xlabel("Episode [-]")
     ax.set_ylabel("Return [-]")
-    ax.set_ylim()
+    ax.set_ylim(*ylim)
     ax.grid(True)
     ax.legend(loc="lower center", ncol=3)
     plt.savefig(

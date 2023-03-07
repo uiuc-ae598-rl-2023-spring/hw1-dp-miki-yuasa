@@ -11,9 +11,11 @@ from gridworld import GridWorld
 from discrete_pendulum import Pendulum
 from utils.plot import plot_batch_lc
 
-model_name: Literal["q", "sarsa"] = "sarsa"
-env = GridWorld()
-num_episodes: int = 500
+model_name: Literal["q", "sarsa"] = "q"
+env = Pendulum()
+ylim: tuple[int, int] = (-6000,)
+convolve_value: int = 5
+num_episodes: int = 5000
 alphas: list[float] = [0.7, 0.5, 0.3]
 epss: list[float] = [0.15, 0.1, 0.05]
 hyperparam_pairs: list[tuple[float, float]] = list(itertools.product(alphas, epss))
@@ -45,4 +47,4 @@ else:
 model_groups: list[list[QLearning | Sarsa]] = [models[0:3], models[3:6], models[6:]]
 
 for i, models in enumerate(model_groups):
-    plot_batch_lc(models, model_name, i)
+    plot_batch_lc(models, model_name, i, convolve_value, ylim)
