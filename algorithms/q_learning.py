@@ -12,7 +12,7 @@ class QLearning:
     def __init__(
         self,
         env: GridWorld | Pendulum,
-        alpha: float = 0.1,
+        alpha: float = 0.5,
         gamma: float = 0.95,
         eps: float = 0.1,
     ) -> None:

@@ -58,11 +58,11 @@ def plot_gridworld_trajectory(
     fig, axs = plt.subplots(nrows=3, ncols=1)
     fig.subplots_adjust(hspace=0.5, wspace=0.3)
     axs[0].plot(t, s, label="s")
-    axs[0].set_ylabel("State")
+    axs[0].set_ylabel("State [-]")
     axs[1].plot(t[:-1], a, label="a")
-    axs[1].set_ylabel("Action")
+    axs[1].set_ylabel("Action [-]")
     axs[2].plot(t[:-1], r, label="r")
-    axs[2].set_ylabel("Reward")
+    axs[2].set_ylabel("Reward [-]")
     axs[2].set_xlabel("Timestep")
     axs[0].grid(True)
     axs[1].grid(True)
@@ -104,8 +104,9 @@ def plot_learning_curve(model: Sarsa | QLearning):
 
     fig, ax = plt.subplots()
     ax.plot(model.returns)
+    ax.set_xlabel("Episode [-]")
+    ax.set_ylabel("Return [-]")
     ax.grid(True)
-    plt.title("{} Learning Curve".format(title))
     plt.savefig(
         "figures/{}/learning_curve_{}.png".format(directory, tag(model)), dpi=600
     )
@@ -142,16 +143,24 @@ def plot_pendulum_trajectory(model: Sarsa | QLearning) -> None:
         log["theta"].append(env.x[0])
         log["thetadot"].append(env.x[1])
 
+    t = log["t"]
+    s = log["s"]
+    a = log["a"]
+    r = log["r"]
     # Plot data and save to png file
     title: str = "SARSA" if isinstance(model, Sarsa) else "Q-learning"
-    fig, ax = plt.subplots(2, 1, figsize=(10, 10))
-    ax[0].plot(log["t"], log["s"])
-    ax[0].plot(log["t"][:-1], log["a"])
-    ax[0].plot(log["t"][:-1], log["r"])
-    ax[0].legend(["s", "a", "r"])
-    ax[1].plot(log["t"], log["theta"])
-    ax[1].plot(log["t"], log["thetadot"])
-    ax[1].legend(["theta", "thetadot"])
+    fig, ax = plt.subplots(4, 1)
+    fig.subplots_adjust(hspace=0.5, wspace=0.3)
+    ax[0].plot(t, s, label="s")
+    ax[0].set_ylabel("State [-]")
+    ax[1].plot(t[:-1], a, label="a")
+    ax[1].set_ylabel("Action [-]")
+    ax[2].plot(t[:-1], r, label="r")
+    ax[2].set_ylabel("Reward [-]")
+    ax[3].plot(log["t"], log["theta"])
+    ax[3].plot(log["t"], log["thetadot"])
+    ax[3].legend(["theta", "thetadot"])
+    ax[3].set_xlabel("Timestep [-]")
     plt.savefig(
         "figures/pendulum/pendulum_trajectory_{}.png".format(tag(model)), dpi=600
     )

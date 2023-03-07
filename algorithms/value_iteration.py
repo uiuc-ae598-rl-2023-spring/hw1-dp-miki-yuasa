@@ -75,7 +75,6 @@ class ValueIteration:
             ax.set_xlabel("Value Iteration [-]")
             ax.set_ylabel("Mean Value [-]")
             ax.grid(True)
-            plt.title("Mean Value vs Iterations")
             plt.savefig("figures/gridworld/learning_curve_vi.png", dpi=600)
         else:
             pass

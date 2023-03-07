@@ -1,3 +1,4 @@
+from matplotlib import pyplot as plt
 from algorithms.q_learning import QLearning
 from discrete_pendulum import Pendulum
 from utils.plot import (
@@ -6,11 +7,14 @@ from utils.plot import (
 )
 
 # Gird World
+plt.rcParams["font.family"] = "Times New Roman"
+
 env = Pendulum()
 
 num_episodes: int = 200
+alphas = [0.25, 0.5, 0.75]
 
-q = QLearning(env, alpha=0.1, eps=0.05)
+q = QLearning(env)
 q.train(num_episodes)
 plot_pendulum_trajectory(q)
 plot_learning_curve(q)
