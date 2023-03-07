@@ -1,6 +1,7 @@
 import random
 
-class GridWorld():
+
+class GridWorld:
     """
     The world is a 5 x 5 grid based on Example 3.5 from Sutton 2019. There are 25 states. We index these states as follows:
 
@@ -31,17 +32,19 @@ class GridWorld():
 
     def p(self, s1, s, a):
         if self.hard_version:
-            return 0.1 * 0.25 * sum([self._p_easy(s1, s, i) for i in range(4)]) + 0.9 * self._p_easy(s1, s, a)
+            return 0.1 * 0.25 * sum(
+                [self._p_easy(s1, s, i) for i in range(4)]
+            ) + 0.9 * self._p_easy(s1, s, a)
         else:
             return self._p_easy(s1, s, a)
 
     def _p_easy(self, s1, s, a):
         if s1 not in range(25):
-            raise Exception(f'invalid next state: {s1}')
+            raise Exception(f"invalid next state: {s1}")
         if s not in range(25):
-            raise Exception(f'invalid state: {s}')
+            raise Exception(f"invalid state: {s}")
         if a not in range(4):
-            raise Exception(f'invalid action: {a}')
+            raise Exception(f"invalid action: {a}")
         # in A
         if s == 1:
             return 1 if s1 == 21 else 0
@@ -75,15 +78,17 @@ class GridWorld():
 
     def r(self, s, a):
         if self.hard_version:
-            return 0.1 * 0.25 * sum([self._r_easy(s, i) for i in range(4)]) + 0.9 * self._r_easy(s, a)
+            return 0.1 * 0.25 * sum(
+                [self._r_easy(s, i) for i in range(4)]
+            ) + 0.9 * self._r_easy(s, a)
         else:
             return self._r_easy(s, a)
 
     def _r_easy(self, s, a):
         if s not in range(25):
-            raise Exception(f'invalid state: {s}')
+            raise Exception(f"invalid state: {s}")
         if a not in range(4):
-            raise Exception(f'invalid action: {a}')
+            raise Exception(f"invalid action: {a}")
         # in A
         if s == 1:
             return 10
@@ -142,16 +147,16 @@ class GridWorld():
             j = self.s % 5
 
             # Apply action to i, j coordinates
-            if a == 0:      # right
+            if a == 0:  # right
                 j += 1
-            elif a == 1:    # up
+            elif a == 1:  # up
                 i -= 1
-            elif a == 2:    # left
+            elif a == 2:  # left
                 j -= 1
-            elif a == 3:    # down
+            elif a == 3:  # down
                 i += 1
             else:
-                raise Exception(f'invalid action: {a}')
+                raise Exception(f"invalid action: {a}")
 
             # Would the action move us out of bounds?
             if i < 0 or i >= 5 or j < 0 or j >= 5:
@@ -164,7 +169,7 @@ class GridWorld():
 
         # Increment number of steps and check for end of episode
         self.num_steps += 1
-        done = (self.num_steps >= self.max_num_steps)
+        done = self.num_steps >= self.max_num_steps
 
         return (self.s, r, done)
 
@@ -177,18 +182,18 @@ class GridWorld():
 
     def render(self):
         k = 0
-        output = ''
+        output = ""
         for i in range(5):
             for j in range(5):
                 if k == self.s:
-                    output += 'X'
+                    output += "X"
                 elif k == 1 or k == 3:
-                    output += 'o'
+                    output += "o"
                 else:
-                    output += '.'
+                    output += "."
                 k += 1
-            output += '\n'
+            output += "\n"
         if self.last_action is not None:
-            print(['right', 'up', 'left', 'down'][self.last_action])
+            print(["right", "up", "left", "down"][self.last_action])
             print()
         print(output)
