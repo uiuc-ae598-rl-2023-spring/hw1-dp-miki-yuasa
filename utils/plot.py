@@ -177,3 +177,23 @@ def tag(model: PolicyIteration | ValueIteration | Sarsa | QLearning) -> str:
         else "q_learning"
     )
     return tag
+
+
+def plot_batch_lc(models: list[QLearning | Sarsa], model_name, ind):
+    directory: str = "gridworld" if isinstance(models[0].env, GridWorld) else "pendulum"
+
+    fig, ax = plt.subplots()
+    for model in models:
+        ax.plot(
+            model.returns,
+            label=r"$\alpha$={}, $\epsilon$={}".format(model.alpha, model.eps),
+        )
+    ax.set_xlabel("Episode [-]")
+    ax.set_ylabel("Return [-]")
+    ax.set_ylim(0, 180)
+    ax.grid(True)
+    ax.legend(loc="lower center", ncol=3)
+    plt.savefig(
+        "figures/{}/learning_curve_barch_{}_{}.png".format(directory, model_name, ind),
+        dpi=600,
+    )
