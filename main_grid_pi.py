@@ -7,6 +7,8 @@ from utils.plot import (
 )
 
 plt.rcParams["font.family"] = "Times New Roman"
+plt.rcParams["font.size"] = 18
+plt.rcParams["figure.subplot.bottom"] = 0.15
 # Gird World
 env = GridWorld()
 

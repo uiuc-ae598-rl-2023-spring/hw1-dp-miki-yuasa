@@ -8,7 +8,8 @@ from utils.plot import (
 )
 
 plt.rcParams["font.family"] = "Times New Roman"
-
+plt.rcParams["font.size"] = 18
+plt.rcParams["figure.subplot.bottom"] = 0.15
 # Gird World
 env = GridWorld()
 
@@ -18,4 +19,4 @@ q = QLearning(env)
 q.train(num_episodes)
 plot_gridworld_trajectory(q)
 plot_gridworld_policy(q)
-plot_learning_curve(q, True)
+plot_learning_curve(q, 100)

@@ -9,10 +9,14 @@ from utils.plot import (
 
 env = GridWorld()
 plt.rcParams["font.family"] = "Times New Roman"
+plt.rcParams["font.size"] = 18
+plt.rcParams["figure.subplot.bottom"] = 0.15
+plt.rcParams["figure.subplot.left"] = 0.15
+
 
 num_episodes: int = 5000
 sarsa = Sarsa(env)
 sarsa.train(num_episodes)
 plot_gridworld_trajectory(sarsa)
 plot_gridworld_policy(sarsa)
-plot_learning_curve(sarsa, True)
+plot_learning_curve(sarsa, 100)
