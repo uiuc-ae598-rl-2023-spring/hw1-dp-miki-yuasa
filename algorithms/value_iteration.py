@@ -30,22 +30,29 @@ class ValueIteration:
 
         V_history: list[float] = [np.mean(V)]
 
-        Delta: float = 0
-        while Delta >= self.theta:
+        while True:
+            Delta: float = 0
             for s in range(self.num_states):
                 v: float = V[s]
                 V[s] = np.max(
-                    np.sum(
-                        [
-                            p(s1, s, a) * (r(s, a) + gamma * V[s1])
-                            for s1 in range(self.num_states)
-                        ]
-                    )
-                    for a in range(self.num_actions)
+                    [
+                        np.sum(
+                            [
+                                p(s1, s, a) * (r(s, a) + gamma * V[s1])
+                                for s1 in range(self.num_states)
+                            ]
+                        )
+                        for a in range(self.num_actions)
+                    ]
                 )
                 Delta = max(Delta, abs(v - V[s]))
 
             V_history.append(np.mean(V))
+
+            if Delta < self.theta:
+                break
+            else:
+                pass
 
         policy = np.zeros(self.num_states)
 
