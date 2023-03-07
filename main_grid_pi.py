@@ -1,13 +1,12 @@
+from matplotlib import pyplot as plt
 from algorithms.policy_iteration import PolicyIteration
-from algorithms.value_iteration import ValueIteration
-from algorithms.sarsa import Sarsa
-from algorithms.q_learning import QLearning
 from gridworld import GridWorld
 from utils.plot import (
     plot_gridworld_policy,
     plot_gridworld_trajectory,
 )
 
+plt.rcParams["font.family"] = "Times New Roman"
 # Gird World
 env = GridWorld()
 

@@ -55,14 +55,19 @@ def plot_gridworld_trajectory(
     s = log["s"]
     a = log["a"]
     r = log["r"]
-    fig, ax = plt.subplots()
-    ax.plot(t, s, label="s")
-    ax.plot(t[:-1], a, label="a")
-    ax.plot(t[:-1], r, label="r")
-    ax.legend()
-    ax.grid(True)
-    plt.title("{} Trajectory".format(title))
-    plt.savefig("figures/gridworld/gridworld_trajectory_{}.png".format(tag))
+    fig, axs = plt.subplots(nrows=3, ncols=1)
+    fig.subplots_adjust(hspace=0.5, wspace=0.3)
+    axs[0].plot(t, s, label="s")
+    axs[0].set_ylabel("State")
+    axs[1].plot(t[:-1], a, label="a")
+    axs[1].set_ylabel("Action")
+    axs[2].plot(t[:-1], r, label="r")
+    axs[2].set_ylabel("Reward")
+    axs[2].set_xlabel("Timestep")
+    axs[0].grid(True)
+    axs[1].grid(True)
+    axs[2].grid(True)
+    plt.savefig("figures/gridworld/gridworld_trajectory_{}.png".format(tag), dpi=600)
 
 
 def plot_gridworld_policy(
@@ -80,10 +85,9 @@ def plot_gridworld_policy(
     policy = model.policy
     V = model.V
     # Plot state-value function
-    fig, axs = plt.subplots(nrows=1, ncols=2)
+    fig, axs = plt.subplots(nrows=2, ncols=1)
     fig.subplots_adjust(hspace=0.6, wspace=0.4)
     axs[0].plot(V)
-    axs[0].set_xlabel("State")
     axs[0].set_ylabel("State-value")
     axs[0].set_title("State-value function")
     # Plot policy
@@ -91,7 +95,7 @@ def plot_gridworld_policy(
     axs[1].set_xlabel("State")
     axs[1].set_ylabel("Action")
     axs[1].set_title("Policy")
-    plt.savefig("figures/gridworld/policy_statevalue_{}.png".format(tag))
+    plt.savefig("figures/gridworld/policy_statevalue_{}.png".format(tag), dpi=600)
 
 
 def plot_learning_curve(model: Sarsa | QLearning):
@@ -102,7 +106,9 @@ def plot_learning_curve(model: Sarsa | QLearning):
     ax.plot(model.returns)
     ax.grid(True)
     plt.title("{} Learning Curve".format(title))
-    plt.savefig("figures/{}/learning_curve_{}.png".format(directory, tag(model)))
+    plt.savefig(
+        "figures/{}/learning_curve_{}.png".format(directory, tag(model)), dpi=600
+    )
 
 
 def plot_pendulum_trajectory(model: Sarsa | QLearning) -> None:
@@ -146,7 +152,9 @@ def plot_pendulum_trajectory(model: Sarsa | QLearning) -> None:
     ax[1].plot(log["t"], log["theta"])
     ax[1].plot(log["t"], log["thetadot"])
     ax[1].legend(["theta", "thetadot"])
-    plt.savefig("figures/pendulum/pendulum_trajectory_{}.png".format(tag(model)))
+    plt.savefig(
+        "figures/pendulum/pendulum_trajectory_{}.png".format(tag(model)), dpi=600
+    )
 
 
 def tag(model: PolicyIteration | ValueIteration | Sarsa | QLearning) -> str:
