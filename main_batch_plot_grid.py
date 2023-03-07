@@ -12,15 +12,17 @@ from discrete_pendulum import Pendulum
 from utils.plot import plot_batch_lc
 
 model_name: Literal["q", "sarsa"] = "q"
-env = Pendulum()
-ylim: tuple[int, int] = (-6000,)
-convolve_value: int = 5
+env = GridWorld()
+ylim: tuple[int, int] = (75, 190)
+convolve_value: int = 100
 num_episodes: int = 5000
 alphas: list[float] = [0.7, 0.5, 0.3]
 epss: list[float] = [0.15, 0.1, 0.05]
 hyperparam_pairs: list[tuple[float, float]] = list(itertools.product(alphas, epss))
 
 plt.rcParams["font.family"] = "Times New Roman"
+plt.rcParams["font.size"] = 18
+plt.rcParams["figure.subplot.bottom"] = 0.15
 env_name: str = "gridworld" if isinstance(env, GridWorld) else "pendulum"
 models_file: str = "./models/models_{}_{}.pickle".format(env_name, model_name)
 

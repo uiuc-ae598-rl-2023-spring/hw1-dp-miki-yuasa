@@ -83,6 +83,7 @@ def plot_gridworld_policy(
         if isinstance(model, Sarsa)
         else "q_learning"
     )
+    directory: str = "gridworld" if isinstance(model.env, GridWorld) else "pendulum"
     policy = model.policy
     V = model.V
     # Plot state-value function
@@ -96,18 +97,22 @@ def plot_gridworld_policy(
     axs[1].set_xlabel("State")
     axs[1].set_ylabel("Action")
     axs[1].set_title("Policy")
-    plt.savefig("figures/gridworld/policy_statevalue_{}.png".format(tag), dpi=600)
+    plt.savefig("figures/{}/policy_statevalue_{}.png".format(directory, tag), dpi=600)
 
 
-def plot_learning_curve(model: Sarsa | QLearning, is_convolved: bool = False):
+def plot_learning_curve(model: Sarsa | QLearning, convolve_value: int):
     directory: str = "gridworld" if isinstance(model.env, GridWorld) else "pendulum"
     title: str = "SARSA" if isinstance(model, Sarsa) else "Q-learning"
 
     fig, ax = plt.subplots()
-    if is_convolved:
-        ax.plot(np.convolve(model.returns, np.ones(100) / 100, mode="valid"))
-    else:
-        ax.plot(model.returns)
+    ax.plot(
+        np.convolve(
+            model.returns,
+            np.ones(convolve_value) / convolve_value,
+            mode="valid",
+        ),
+        label=r"$\alpha$={}, $\epsilon$={}".format(model.alpha, model.eps),
+    )
     ax.set_xlabel("Episode [-]")
     ax.set_ylabel("Return [-]")
     ax.grid(True)
@@ -154,7 +159,7 @@ def plot_pendulum_trajectory(model: Sarsa | QLearning) -> None:
     # Plot data and save to png file
     title: str = "SARSA" if isinstance(model, Sarsa) else "Q-learning"
     fig, ax = plt.subplots(4, 1)
-    fig.subplots_adjust(hspace=0.5, wspace=0.3)
+    fig.subplots_adjust(hspace=0.6, wspace=0.4)
     ax[0].plot(t, s, label="s")
     ax[0].set_ylabel("State [-]")
     ax[1].plot(t[:-1], a, label="a")
@@ -163,7 +168,7 @@ def plot_pendulum_trajectory(model: Sarsa | QLearning) -> None:
     ax[2].set_ylabel("Reward [-]")
     ax[3].plot(log["t"], log["theta"])
     ax[3].plot(log["t"], log["thetadot"])
-    ax[3].legend(["theta", "thetadot"])
+    ax[3].legend([r"$\theta$", r"$\dot{\theta}$"], ncol=2)
     ax[3].set_xlabel("Timestep [-]")
     plt.savefig(
         "figures/pendulum/pendulum_trajectory_{}.png".format(tag(model)), dpi=600
@@ -196,7 +201,7 @@ def plot_batch_lc(
     for model in models:
         ax.plot(
             np.convolve(
-                model.returns[0:199],
+                model.returns,
                 np.ones(convolve_value) / convolve_value,
                 mode="valid",
             ),
@@ -206,7 +211,7 @@ def plot_batch_lc(
     ax.set_ylabel("Return [-]")
     ax.set_ylim(*ylim)
     ax.grid(True)
-    ax.legend(loc="lower center", ncol=3)
+    ax.legend(loc="lower right")
     plt.savefig(
         "figures/{}/learning_curve_barch_{}_{}.png".format(directory, model_name, ind),
         dpi=600,
